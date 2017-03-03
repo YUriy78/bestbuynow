@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %} {{ article.title }} {% endblock %}
+{% block content %}
+	<div>
+		<h1 align="center">{{article.title}}</h1>
+		<p>&nbsp;</p>
+		{% autoescape off %}
+			{{ article.text }}
+			<p><span id="author_article"><strong>Автор статьи:</strong> {{ article.author }}</span>
+			 <span id="date_article"><strong>Дата статьи:</strong> {{ article.date }}</span></p>
+		{% endautoescape %}
+	</div>
+{% endblock %}

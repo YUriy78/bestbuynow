@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %} Best buy now - сайт бесплатных объявлений{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#subscription form').submit(function(){
+		var email = $('input[name=email]');
+		if (email.val() != ''){
+			alert("Письмо с cсылкой для подтверждения подписки отправлено на ваш email. Спасибо!");
+		}
+	});
+});
+</script>
+{% endblock %}
+{% block content %} 
+<div align="center" id="subscription">
+		<h3>Ищете объявление? Подпишитесь:</h3>
+		<form action="/" method="POST">
+			<table>
+				<tr>
+				<td><label for="id_name">Ваш email:</label><input name="email" type="email" /></td>
+				<td><label for="id_name">Категория подписки:</label>
+					<select name="category">
+						{% for main_category in main_categories %}
+						<option class="main-category" disabled="disabled">{{main_category.name}}</option>
+						{% for category in main_category.category_set.all %}
+						<option value="{{category.id}}">{{category.name}}</option>
+						{% endfor %}
+						{% endfor %}
+					</select>
+				</td>
+				<td valign="bottom"><input class="searchbutton" value="Подписаться" type="submit" /></td>
+				</tr>
+			</table>			
+		</form>
+</div>
+<h1 align="center">Поиск объявлений</h1>
+	   <p align="center">{{search}}</p>
+{% if ad_list %}
+	<table width="600px">
+		{% for ad in ad_list %}
+		<tr class="row-a">
+          <td width="110" align="center">
+		  {% if ad.photo_set.first.file %}
+				<img width="130px" src="/media/{{ ad.photo_set.first.file }}" alt="{{ad.name}}" />
+		  {% else %}
+				<img width="130px" src="/static/images/nophoto.jpg" alt="{{ad.name}}" />
+		  {% endif %}	
+		  
+		  </td>
+          <td valign="top"><p><a class="title" href="/board/pagead/{{ad.id}}">{{ad.name}}</a></p>
+			<p>{{ad.category}} / город: {{ad.city}}</p>
+			<p>{{ad.date}}</p>
+		  </td>
+        </tr>
+		{% endfor %}
+	</table>
+{% else %}
+		<p align="center">По ващему запросу ни чего не найдено!</p>
+{% endif %}
+    {% if ad_list %}
+		<div class="pagination">
+			{% ifequal search category %}
+				 <span class="step-links">
+					{% if ad_list.has_previous %}
+						<a href="?&category={{category.id}}&search=&city={{city.id}}&page={{ ad_list.previous_page_number }}">Предыдущая</a>
+					{% endif %}
+
+					<span class="current">
+						Страница {{ ad_list.number }} из {{ ad_list.paginator.num_pages }}.
+					</span>
+
+					{% if ad_list.has_next %}
+						<a href="?&category={{category.id}}&search=&city={{city.id}}&page={{ ad_list.next_page_number }}">Следующая</a>
+					{% endif %}
+				</span>
+			{% else%}
+				<span class="step-links">
+					{% if ad_list.has_previous %}
+						<a href="?&category={{category.id}}&search={{search}}&city={{city.id}}&page={{ ad_list.previous_page_number }}">Предыдущая</a>
+					{% endif %}
+
+					<span class="current">
+						Страница {{ ad_list.number }} из {{ ad_list.paginator.num_pages }}.
+					</span>
+
+					{% if ad_list.has_next %}
+						<a href="?&category={{category.id}}&search={{search}}&city={{city.id}}&page={{ ad_list.next_page_number }}">Следующая</a>
+					{% endif %}
+				</span>
+			{% endifequal %}
+		</div>
+	{% endif %}
+{% endblock %}

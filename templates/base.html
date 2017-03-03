@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+<title>{% block title %} {% endblock %}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/static/images/MarketPlace.css" type="text/css" />
+<link rel="icon" href="/static/images/favicon.ico" type="image/x-icon"> 
+<meta name='yandex-verification' content='4c3bedd7fcb5b7a6' />
+{% block scripts %}<script type="text/javascript" src="/static/js/jquery.js"></script>{% endblock %}
+<script type="text/javascript">
+$(function(){
+		
+	$('#interactive li').click(function(){
+		$('.interactive').css("display", "none");
+		var my = $('ul', this).css("display", "block");
+	});
+	
+	$('a.close_form').click(function(){
+		document.location.href = "/";
+	});
+	
+	
+});
+</script>
+</head>
+<body>
+<div id="wrap">
+<div id="header-photo">
+     <h2 id="slogan">Лучший сайт для поиска работы, товара или услуги!</h2>
+</div>
+  <div align="center" id="search">
+	<form action="/board/search/" class="searchform" method="GET">
+        <select name="category">
+		{% for main_category in main_categories %}
+				<option class="main-category" disabled="disabled">{{main_category.name}}</option>
+				{% for category in main_category.category_set.all %}
+				<option value="{{category.id}}">{{category.name}}</option>
+				{% endfor %}
+		{% endfor %}
+		</select>
+        <input name="search" class="textbox" type="text" />
+		<select name="city">
+		{% for city in city_list %}
+			<option value="{{city.id}}">{{city}}</option>
+		{% endfor %}
+		</select>
+		<input class="searchbutton" value="Поиск объявлений" type="submit" />
+    </form>
+	<ul id="interactive">
+		{% for main_category in main_categories %}
+			<li><img src="/media/{{ main_category.iconmaincategory_set.first.icon }}" alt="{{main_category.name}}" />&nbsp;<a onclick="return false" href="#">{{main_category.name}}</a>
+				<ul class="interactive">
+					<p align="center"><a class="close_form" style="color: red; font-size: 12px" onclick="return false" href="">Закрыть</a></p>
+					{% for category in main_category.category_set.all %}
+						<li><a href="/board/interactive/{{category.id}}">{{category.name}}</a></li>
+					{% endfor %}
+				</ul>
+			</li>
+		{% endfor %}
+	</ul>
+  </div>
+  <div id="content-wrap" class="two-col"  >
+    <div id="sidebar">
+	{% if not current_user %}
+      <p><a href="/board/add/"><img src="/static/images/add_ad.jpg" alt="Размещение без регистрации" /></a></p>
+	{% endif %}
+	  <h1>Меню</h1>
+	  <ul class="sidemenu">
+        <li><a class="title" href="/board/description/">О сайте</a></li>
+		<li><a class="title" href="/">Главная</a></li>
+		{% if not current_user %}
+			<li><a class="title" href="/board/registration/">Регистрация</a></li>
+			<li><a class="title" href="/board/login/">Войти в аккаунт</a></li>
+		{% endif %}
+        <li><a class="title" href="/board/feedback/">Задать вопрос</a></li>
+		<li><a class="title" href="/catalog/index/">Каталог фирм</a></li>
+		<li><a class="title" href="/board/articles/">Статьи и новости</a></li>
+		<li><a class="title" href="/burse/bid/">Биржа труда</a></li>
+		{% if current_user %}
+		   <li><a class="title" href="/board/account/{{current_user}}">Ваш аккаунт</a></li>
+		   <li><a class="title" href="/?del_session">Выйти</a></li>
+		{% endif %}
+     </ul>
+		<table id="six_articles">
+			<tr>
+				<td align="center"><br/>
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- best-buy-now-2 -->
+				<ins class="adsbygoogle"
+				style="display:inline-block;width:160px;height:600px"
+				data-ad-client="ca-pub-1698651832838772"
+				data-ad-slot="5797109643"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+				</td>
+			</tr>
+			{% block ten_articles %} {% endblock %}
+		</table>
+	</div>
+    <div id="main">
+		<div align="center">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- http://best-buy-now.ru2 -->
+		<ins class="adsbygoogle"
+			 style="display:inline-block;width:320px;height:100px"
+			 data-ad-client="ca-pub-1698651832838772"
+			 data-ad-slot="7441540447"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+		</div>
+		{% block content %} {% endblock %}
+	</div>
+ </div>
+  <div id="footer-wrap">
+    <div id="footer">
+      <p>&copy; 2015 <strong>Best buy now - best-buy-now.ru</strong> | Design by: <a href="http://www.styleshout.com/">styleshout</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/">Главная</a>&nbsp;|&nbsp; <a href="/board/description">О сайте</a></p>
+	  <p><!--LiveInternet counter--><script type="text/javascript"><!--
+		 document.write("<a href='//www.liveinternet.ru/click' "+
+		 "target=_blank><img src='//counter.yadro.ru/hit?t11.2;r"+
+		  escape(document.referrer)+((typeof(screen)=="undefined")?"":
+		  ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+		  screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+		  ";"+Math.random()+
+		  "' alt='' title='LiveInternet: показано число просмотров за 24"+
+		  " часа, посетителей за 24 часа и за сегодня' "+
+		  "border='0' width='88' height='31'><\/a>")
+		  //--></script><!--/LiveInternet--></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

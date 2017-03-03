@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %} Вход в аккаунт {% endblock %}
+{% block content %} 
+	{% if right_to_change %}
+			<h1 align="center">Изменение пароля</h1>
+			<p>&nbsp;</p>
+			{% if errors %}
+				{% for error in errors %}
+						<p class="error" align="center">{{ error }}</p>
+				{% endfor %}
+			{% endif %}
+			<div align="center">
+				<form action="" method="post" enctype='multipart/form-data'>
+						<table cellpadding="10px">
+							{{change_pass.as_table}}
+							<tr>
+								<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+								<td align="right"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+							</tr>	
+						</table>  
+				</form>
+			</div>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+	{% else %}
+		<div align="center">
+			<h1>Страница не существует!</h1>
+			<p>&nbsp;</p>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		</div>
+	{% endif %}
+	
+{% endblock %}

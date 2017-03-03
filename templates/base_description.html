@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<link rel="stylesheet" type="text/css" href="/static/CircleFlipSlideshow/css/component.css" />
+<script src="/static/CircleFlipSlideshow/js/modernizr.custom.js"></script>
+<script src="/static/CircleFlipSlideshow/js/jquery.min.js"></script>
+<script src="/static/CircleFlipSlideshow/js/jquery.flipshow.js"></script>
+<script>
+$( function() {
+				
+	$( '#fc-slideshow' ).flipshow();
+
+} );
+</script>
+{% endblock %}
+{% block title %}Дать объявление бесплатно{% endblock %}
+{% block content %} 
+<h1 align="center">{{description.title}}</h1>
+		<p>&nbsp;</p>
+		<div id="fc-slideshow" class="fc-slideshow">
+					<ul class="fc-slides">
+						<li><img src="/static/CircleFlipSlideshow/images/ad.jpg" /><h3>Ad</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/choice.jpg" /><h3>Choice</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/clients.jpg" /><h3>$</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/easy.jpg" /><h3>Easy</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/goods.jpg" /><h3>Goods</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/search.jpg" /><h3>%</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/buy.jpg" /><h3>Buy</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/sell.jpg" /><h3>Sell</h3></li>
+						<li><img src="/static/CircleFlipSlideshow/images/profit.jpg" /><h3>$</h3></li>
+					</ul>
+		</div>
+		<div id="description">
+		{% autoescape off %}
+			<p>&nbsp;</p>
+			{{description.text}}
+		{% endautoescape %}
+		</div>
+		<p align="center"><img src="/static/images/best-buy-now.ru.gif" alt="где можно дать объявление бесплатно" /></p>
+{% endblock %}

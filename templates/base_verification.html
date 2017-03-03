@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %} 
+{% if check_sub %}
+	<h1 align="center">Ваша подписка на объявления подтверждена!</h1>
+{% endif %}
+{% if del_sub %}
+	<h1 align="center">Ваша подписка на объявления удалена!</h1>
+{% endif %}
+	
+{% endblock %}

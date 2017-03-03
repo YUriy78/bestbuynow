@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript"> 
+$(function(){
+	$('.confirmation').click(function(){
+		if(confirm('Вы уверены?')){
+			document.location.href = this.href;
+		}
+			
+    });
+
+ });	
+</script>
+{% endblock %}
+{% block content %} 
+	<h1 align="center">Все объявления пользователя</h1>
+	   <p>&nbsp;</p>
+	   {% if ad_list %}
+		   <table width="600px">
+		   {% for ad in ad_list %}
+			<tr class="row-a">
+			  <td width="110" align="center">
+			  {% if ad.photo_set.first.file %}
+					<img width="100px" src="/media/{{ ad.photo_set.first.file }}" alt="{{ad.name}}" />
+			  {% else %}
+					<img width="100px" src="/static/images/nophoto.jpg" alt="{{ad.name}}" />
+			  {% endif %}	
+			  </td>
+			  <td valign="top"><p><a href="/board/pagead/{{ad.id}}"><big>{{ad.name}}</big></a></p>
+				<p>{{ad.category}} / город: {{ad.city}}</p>
+				<p>{{ad.date}}</p>
+			  </td>
+			  {% if right_to_change %}
+				<td>
+					{% ifequal ad.status.name "Одобрено" %}
+						<p class="status"><small><strong>Статус: </strong><br/><span style="color:green">{{ad.status}}</span></small></p>
+					{% else %}
+						<p class="status"><small><strong>Статус: </strong><br/><span style="color:red">{{ad.status}}</span></small></p>
+					{% endifequal %}
+					<p><a href="/board/changead/{{user.id}}/{{ad.id}}/">Редактировать</a></p>
+					<p class="del-ad"><a onclick="return false;" class="confirmation" href="/board/userad/{{user.id}}/?delad={{ad.id}}">Удалить</a></p>
+				</td>
+			  {% endif %}
+			</tr>
+		   {% endfor %}
+			</table>
+			<div class="pagination">
+				<span class="step-links">
+					{% if ad_list.has_previous %}
+						<a href="?&category={{category.id}}&search={{search}}&city={{city.id}}&page={{ ad_list.previous_page_number }}">Предыдущая</a>
+					{% endif %}
+
+					<span class="current">
+						Страница {{ ad_list.number }} из {{ ad_list.paginator.num_pages }}.
+					</span>
+
+					{% if ad_list.has_next %}
+						<a href="?&category={{category.id}}&search={{search}}&city={{city.id}}&page={{ ad_list.next_page_number }}">Следующая</a>
+					{% endif %}
+				</span>
+		    </div>
+		{% else %}
+			<p align="center">У пользователя пока нет объявлений!</p>
+		{% endif %}
+		
+{% endblock %}

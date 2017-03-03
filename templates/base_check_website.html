@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %} Проверка сайта {{ domain }}{% endblock %}
+{% block content %} 
+<h1 align="center">Проверка сайта {{ domain }}</h1>
+	<p>&nbsp;</p>
+  	<div id="check-website">
+		<form action="" class="searchform" method="GET">
+			<input name="website" class="textbox" type="text" />
+			<input class="searchbutton" value="Проверка сайта" type="submit" />
+		</form>
+		<p>&nbsp;</p>
+		{% if website %}<p><strong>Сайт:</strong> {{ website }}</p>{% endif %}
+		{% if title %}<p><strong>Название сайта:</strong> {{ title }}</p>{% endif %}
+		{% if domain %}<p><strong>Домен сайта:</strong> {{ domain }}</p>{% endif %}
+		{% if tic %}<p><strong>тИЦ сайта:</strong> {{ tic }}</p>{% endif %}
+		{% if ip_website %}<p><strong>IP сайта:</strong> {{ ip_website }}</p>{% endif %}
+		{% if h1_list %}
+			<p><strong>Заголовки H1:</strong></p>
+			{% for h1 in h1_list %}
+				<span>{{ h1 }}</span><br/>
+			{% endfor %}	
+		{% endif %}
+		{% if h2_list %}
+			<p><strong>Заголовки H2:</strong></p>
+			{% for h2 in h2_list %}
+				<span>{{ h2 }}</span><br/>
+			{% endfor %}	
+		{% endif %}
+		{% if h3_list %}
+			<p><strong>Заголовки H3:</strong></p>
+			{% for h3 in h3_list %}
+				<span>{{ h3 }}</span><br/>
+			{% endfor %}	
+		{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} {{ category }} {% endblock %}
+{% block content %} 
+<h1 align="center">{{ category }}</h1>
+	<p>&nbsp;</p>
+  	<div id="category-company">
+		<form action="/catalog/index/" class="searchform" method="GET">
+			<input name="search" class="textbox" type="text" />
+			<input class="searchbutton" value="Поиск фирмы" type="submit" />
+		</form>
+		<p>&nbsp;</p>
+		{% if not_company %}<p><strong>Фирма в каталоге не найдена!</strong></p>{% endif %}
+		{% for company in list_company %}
+			<p><a class="title" href="/catalog/pagefirm/{{company.id}}/">{{company.company}}</a></p>
+		{% endfor %}
+	</div>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	<p>&nbsp;</p>
+	{% if list_company %}
+		<div class="pagination">
+				<span class="step-links">
+				{% if list_company.has_previous %}
+					<a href="?search={{search}}&page={{list_company.previous_page_number}}">Предыдущая</a>
+				{% endif %}
+
+				<span class="current">
+					Страница {{ list_company.number }} из {{ list_company.paginator.num_pages }}.
+				</span>
+
+				{% if list_company.has_next %}
+					<a href="?search={{search}}&page={{list_company.next_page_number}}">Следующая</a>
+				{% endif %}
+				</span>
+		</div>
+	{% endif %}
+{% endblock %}

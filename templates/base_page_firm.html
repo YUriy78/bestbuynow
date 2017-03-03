@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %} {{ company.company | striptags }} {% endblock %}
+{% block content %} 
+<h1 align="center">{{ company.company | striptags }}</h1>
+	<table id="page_firm">
+		<tr><td><p>Город: {{ company.city }}</p></td></tr>
+		<tr>
+			<td>
+				<p>Адрес: {{ company.address | striptags }}</p>
+			</td>
+		</tr>
+		{% if company.metro %}
+			<tr>
+				<td><p>Метро: {{ company.metro | striptags }}</p></td>
+			</tr>
+		{% endif %}
+		{% if company.description %}
+			<tr>
+				<td><p>{% autoescape off %}{{ company.description}}{% endautoescape %}</p></td>
+			</tr>
+		{% endif %}
+		<tr>
+			<td><p>Телефон: {{ company.phone | striptags }}</p></td>
+		</tr>
+		{% if company.fax %}
+			<tr>
+				<td><p>Факс: {{ company.fax | striptags }}</p></td>
+			</tr>
+		{% endif %}
+		{% if company.website %}
+			<tr>
+				<td><p>Сайт: <a href="{{ company.website | striptags }}">{{ company.website | striptags }}</a></p></td>
+			</tr>
+		{% endif %}
+		{% if company.email %}
+			<tr>
+				<td><p>E-mail: <a href="mailto:{{ company.email | striptags }}">{{ company.email | striptags }}</a></p></td>
+			</tr>
+		{% endif %}
+		{% if company.icq %}
+			<tr>
+				<td><p>ICQ: {{ company.icq | striptags }}</p></td>
+			</tr>
+		{% endif %}
+		
+		{% if company.opening_times %}
+			<tr>
+				<td><p>Время работы: {{ company.opening_times | striptags }}</p></td>
+			</tr>
+		{% endif %}
+		
+		{% if company.logo %}
+			<tr>
+				<td><p><img width="200px" src="/media/{{ company.logo}}" alt="{{ company.company | striptags }}" /></p></td>
+			</tr>
+		{% endif %}
+	
+	</table>
+	  
+{% endblock %}

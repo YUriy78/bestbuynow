@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 align="center">Электронная биржа труда</h1>
+	<p>&nbsp;</p>
+	<div align="center">
+		<div align="left">
+			<p>Вы хотите найти работу по специальности?</p>
+			<p>Вам нужно найти грамотных специалистов?</p>
+			<p>Электронная биржа труда поможет вам это сделать!</p>
+			<p>Вам нужно только заполнить форму (см. ниже), и мы <strong>бесплатно</strong> подберем вам подходящую работу или сотрудников из нашей огромной базы данных!</p>
+		</div>
+		<p>&nbsp;</p>
+		<form action="" class="form-ad" method="POST" enctype="multipart/form-data">
+			<table>
+				<tr><th><label for="id_name">Статус:</label></th>
+					<td><select name="status">
+					{% for status in status_list %}
+						<option value="{{status.id}}">{{status}}</option>
+					{% endfor %}
+					</select></td>
+				</tr>
+				<tr><th><label for="id_name">Город:</label></th>
+					<td><select name="city">
+					{% for city in city_list %}
+						<option value="{{city.id}}">{{city}}</option>
+					{% endfor %}
+					</select></td>
+				</tr>
+				{{ bid_form.as_table }}
+				<tr>
+				<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+				<td><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+				</tr>
+			</table>
+		</form>
+		<p><img src="/static/images/burse.jpg" alt="Электронная биржа труда" /></p>
+	</div>
+{% endblock %}

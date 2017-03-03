@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript"> 
+$(function(){
+	$('.confirmation').click(function(){
+		if(confirm('Вы уверены?')){
+			document.location.href = this.href;
+		}
+			
+    });
+
+ });	
+</script>
+{% endblock %}
+{% block content %} 
+	{% if right_to_change %}
+	   <h1 align="center">Ваши фирмы</h1>
+	   <p>&nbsp;</p>
+	   {% if company_list %}
+		   <table width="600px">
+		   {% for company in company_list %}
+		    <tr class="row-a">
+			  <td><p><br/><a class="title" href="/catalog/pagefirm/{{company.id}}"><big>{{company.company}}</big></a></p>
+				<p>{{company.category}}</p>
+				<p>Дата регистрации: {{company.date}}</p>
+			  </td>
+			  <td>
+				 {% ifequal company.status.name "Одобрено" %}
+					<p class="status"><small><strong>Статус: </strong><br/><span style="color:green">{{company.status}}</span></small></p>
+				{% else %}
+					<p class="status"><small><strong>Статус: </strong><br/><span style="color:red">{{company.status}}</span></small></p>
+				{% endifequal %}
+				 <p><a href="/catalog/changefirm/{{user.id}}/{{ company.id }}">Редактировать</a></p>
+				 <p class="del-ad"><a onclick="return false;" class="confirmation" href="/catalog/firms/{{user.id}}/?delcompany={{company.id}}">Удалить</a></p>
+			  </td>
+			</tr>
+		   {% endfor %}
+			</table>
+		{% else %}
+			<p align="center">Вы не добавили ни одной фирмы!</p>
+		{% endif %}
+    {% else %}
+		<div align="center">
+			<p>&nbsp;</p>
+			<h1>Страница не существует!</h1>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		</div>
+	{% endif %}
+		
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} Каталог фирм {% endblock %}
+{% block content %} 
+<h1 align="center">Каталог фирм </h1>
+    <p>&nbsp;</p>
+	<div id="category-company">
+		<form action="" class="searchform" method="GET">
+			<input name="search" class="textbox" type="text" />
+			<input class="searchbutton" value="Поиск фирмы" type="submit" />
+		</form>
+		<p>&nbsp;</p>
+		{% for category in categories %}
+			<p><a class="title" href="/catalog/company/{{category.id}}">{{category.name}}</a></p>
+		{% endfor %}
+	</div>
+{% endblock %}

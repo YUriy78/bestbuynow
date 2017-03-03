@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript"> 
+$(function(){
+	$('.confirmation').click(function(){
+		if(confirm('Вы уверены?')){
+			document.location.href = this.href;
+		}
+			
+    });
+
+ });	
+</script>
+{% endblock %}
+{% block content %} 
+	{% if right_to_change %}
+	   <h1 align="center">Редактирование фирмы</h1>
+		<p>&nbsp;</p>
+		<div align="center">
+			<form action="" class="form-ad" id="reg-company" method="POST" enctype="multipart/form-data">
+				<table>
+					<tr><th><label for="id_category">Категория:</label></th><td>
+					{% autoescape off %}
+					<select multiple="multiple" id="id_category" name="category">
+						{% for option in list_option %}
+							{{ option }}
+						{% endfor %}
+					</select>
+					{% endautoescape %}<br/>
+					<span class="helptext"> Удерживайте "Control" (или "Command" на Mac), для выбора нескольких значений.</span></td></tr>
+					<tr><th><label for="id_category">Город:</label></th><td><select name="city">
+						{% for city in city_list %}
+							{% ifequal city company.city  %}
+								<option selected="{{city}}" value="{{ city.id }}">{{city}}</option>
+							{% else %}
+								<option value="{{ city.id }}">{{city}}</option>
+							{% endifequal %}
+						{% endfor %}
+					</select></td></tr>
+					<tr><th><label for="id_company">Название фирмы:</label></th><td><input id="id_company" value="{{company.company}}" name="company" type="text" /></td></tr>
+					<tr><th><label for="id_address">Адрес фирмы:</label></th><td><input id="id_address" value="{{company.address}}" name="address" type="text" /></td></tr>
+					<tr><th><label for="id_metro">Метро:</label></th><td><input id="id_metro" value="{{company.metro}}" name="metro" type="text" /></td></tr>
+					<tr><th><label for="id_phone">Телефон:</label></th><td><input id="id_phone" value="{{company.phone}}" name="phone" type="text" /></td></tr>
+					<tr><th><label for="id_fax">Факс:</label></th><td><input id="id_fax" value="{{company.fax}}" name="fax" type="text" /></td></tr>
+					<tr><th><label for="id_icg">ICQ:</label></th><td><input id="id_icg" value="{{company.icq}}" name="icq" type="text" /></td></tr>
+					<tr><th><label for="id_website">Официальный сайт фирмы:</label></th><td><input id="id_website" value="{{company.website}}" name="website" type="text" /></td></tr>
+					<tr><th><label for="id_email">E-mail:</label></th><td><input id="id_email" value="{{company.email}}" name="email" type="email" /></td></tr>
+					<tr><th><label for="id_opening_times">Время работы:</label></th><td><input id="id_opening_times" value="{{company.opening_times}}" name="opening_times" type="text" /></td></tr>
+					<tr><th><label for="id_description">Описание деятельности:</label></th><td><textarea cols="40" id="id_description" name="description" rows="10">{{company.description}}</textarea></td></tr>
+					<tr><th><label for="id_logo">Логотип:</label></th><td><input id="id_logo" name="logo" type="file" /></td></tr>
+					
+					<tr>
+						<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+						<td><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+    {% else %}
+		<div align="center">
+			<p>&nbsp;</p>
+			<h1>Страница не существует!</h1>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		</div>
+	{% endif %}
+		
+{% endblock %}

@@ -1,0 +1,31 @@
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+import views
+
+urlpatterns = patterns('',
+	(r'registration/$', views.registration),
+	(r'account/(\d{1,})/$', views.user_account),
+	(r'login/$', views.user_login),
+	(r'feedback/$', views.feedback),
+	(r'datachange/(\d{1,})/$', views.data_change),
+	(r'changelogo/(\d{1,})/$', views.change_logo),
+	(r'changepass/(\d{1,})/$', views.change_pass),
+	(r'newad/(\d{1,})/$', views.new_ad),
+	(r'newjob/(\d{1,})/$', views.new_job),
+	(r'pagead/(\d{1,})/$', views.page_ad),
+	(r'forgotpass/$', views.forgot_password),
+	(r'passemail/(\d{1,})/$', views.password_email),
+	(r'search/$', views.search),
+	(r'userad/(\d{1,})/$', views.all_user_ad),
+	(r'changead/(\d{1,})/(\d{1,})/$', views.change_ad),
+	(r'description/$', views.description_site),
+	(r'mail/(\d{1,})/$', views.internal_mail),
+	(r'articles/$', views.articles),
+	(r'article/(\d{1,})/$', views.article),
+	(r'searchart/$', views.search_article),
+	(r'check/$', views.check_login),
+	(r'genpass/$', views.gen_pass),
+	(r'verification/(\d{1,})/$', views.check_verification),
+	(r'add/$', views.add_without_reg),
+	(r'interactive/(\d{1,})/$', views.interactive),
+)

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %} 
+	<div align="center">
+		{% if right_to_change %}
+			<h1 align="center">Изменение логотипа</h1>
+			<p>&nbsp;</p>
+			<form action="" method="post" enctype="multipart/form-data">
+				<table cellpadding="10px">
+				{{change_logo.as_table}}
+				<tr>
+					<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+					<td align="left"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+				</tr>
+				</table>  
+			</form>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+		{% else %}
+			<p>&nbsp;</p>
+			<h1>Страница не существует!</h1>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		{% endif %}
+	</div>
+	
+{% endblock %}

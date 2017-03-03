@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %} 
+	<div align="center">
+		{% if right_to_change %}
+		<h1 align="center">Изменение данных</h1><br/>
+			<form action="" method="post">
+				<table cellpadding="10px">
+					<tr><th><label for="id_name">Город:</label></th>
+					<td><select name="city">
+					{% for city in city_list %}
+						{% ifequal user.city.name city.name %}
+							<option selected="{{city}}" value="{{city.id}}">{{city}}</option>
+						{% else%} 
+							<option value="{{city.id}}">{{city}}</option>
+						{% endifequal %} 
+					{% endfor %}
+					</select></td>
+					</tr>
+					<tr><th><label for="id_name">Имя:</label></th><td><input name="name" type="text" value="{{user.name}}"/></td></tr>
+					<tr><th><label for="id_name">Логин:</label></th><td><input name="login" type="text" value="{{user.login}}"/></td></tr>
+					<tr><th><label for="id_name">Еmail:</label></th><td><input name="email" type="email" value="{{user.email}}"/></td></tr>
+					<tr><th><label for="id_name">Телефон:</label></th><td><input name="phone" type="text" value="{{user.phone}}"/></td></tr>
+					<tr><th><label for="id_name">Метро:</label></th><td><input name="metro" type="text" value="{{user.metro}}"/></td></tr>
+					<tr><th><label for="id_name">Компания:</label></th><td><input name="company" type="text" value="{{user.company}}"/></td></tr>
+					<tr><th><label for="id_name">Адрес:</label></th><td><input name="address" type="text" value="{{user.address}}"/></td></tr>
+					<tr>
+					<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+					<td align="left"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+					</tr>	
+				</table>  
+			</form>
+		
+		{% else %}
+			<p>&nbsp;</p>
+			<h1>Страница не существует!</h1>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		{% endif %}
+	
+	</div>
+{% endblock %}

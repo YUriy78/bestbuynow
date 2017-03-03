@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %} Регистрация{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#id_login").blur(function(){
+		var login = $('input[name=login]');
+		if (login.val() != "" ){
+			
+			$.ajax({
+				url: "/board/check/",
+				type: "GET",
+				dataType: "html",
+				data: {
+					"login" : login.val()
+				},
+				success : function (data, textStatus) {
+					if (data.valueOf() == "Свободен") {
+						$("#check_login").text(data).css("color", "green");
+					}
+					else if (data.valueOf() == "Занят") {
+						$("#check_login").text(data).css("color", "red");
+					}
+					
+				}
+							
+			
+			});
+		}
+		
+	});
+	$("#get_pass").click(function(){
+		var getpass = $('input[name=get_pass]');
+			$.ajax({
+				url: "/board/genpass/",
+				type: "GET",
+				dataType: "html",
+				
+				success : function (data, textStatus) {
+					getpass.val(data);
+					
+				}
+							
+			
+			});
+	});
+});
+</script>
+{% endblock %}
+{% block content %} 
+<h1 align="center">Регистрация</h1>
+	   	<div align="center">
+			{% if not current_user %}
+				{% if errors %}
+					{% for error in errors %}
+						<p class="error" align="center"><strong>{{ error }}</strong></p>
+					{% endfor %}
+				{% else %}
+					<p>&nbsp;</p>
+				{% endif %}
+				<span id="check_login"></span>
+				<form action="" method="POST">
+				<table>
+					<tr><th><label for="id_name">Город <small>(объявления)</small>:</label></th><td>
+					<select name="city">
+						{% for city in city_list %}
+						<option value="{{ city.id }}">{{city}}</option>
+						{% endfor %}
+					</select>
+					</td></tr>
+					{{ registration.as_table }}
+					<tr>
+						<th><a id="get_pass" onclick="return false;" href="#"><label><small>Сгенерировать пароль:</small></label></a></th>
+						<td><input name="get_pass" type="text" /></td>
+					</tr>
+					<tr>
+					<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+					<td align="right"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+					</tr>
+				</table>
+				</form>
+				<p>&nbsp;</p>
+			{% else %}
+				<h3 align="center">Вы уже зарегистрированы!</h3>
+				   <div>
+					   {% if current_user %}
+							<p><a href="/board/account/{{current_user}}">Ваш аккаунт</a></p>
+							<p><a href="/board/account/{{current_user}}"><img src="/static/images/account.jpg" alt="аккаунт пользователя" /></a></p>
+							<p>&nbsp;</p>
+					  {% endif %}
+				   </div>
+			{% endif %}
+		</div>
+{% endblock %}

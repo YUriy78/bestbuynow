@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %} Аккаунт пользователя{% endblock %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#link_change_avatar').click(function(){
+			$('#change_avatar').css("display", "block");
+		});
+		$('#close_change_avatar').click(function(){
+			$('#change_avatar').css("display", "none");
+		});
+		
+	});
+</script>
+{% endblock %}
+{% block content %} 
+<h1 align="center">Аккаунт пользователя</h1>
+<table>
+	<tr>
+		<td valign="top">
+			{% if user.avatar %}
+					<img width="100px" src="/media/{{ user.avatar }}" />
+			{% else %}
+					<img width="100px" src="/static/images/noavatar_user.gif" />
+			{% endif %}
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+		</td>
+		<td valign="top"> 
+			<p><strong>Имя:</strong> {{ user.name }}</p>
+			<p><strong>Email:</strong><a href="mailto:{{ user.email }}"> {{ user.email }}</a></p>
+			{% if user.phone %}<p><strong>Телефон:</strong> {{ user.phone }}</p>{% endif %}
+			<p><strong>Город:</strong> {{ user.city }}</p>
+			{% if user.metro %}<p><strong>Метро:</strong> {{ user.metro }}</p>{% endif %}
+			<p><a href="/board/userad/{{ user.id }}">Объявления пользователя</a></p>
+		</td>
+		{% if user.company %}
+		<td valign="top">
+			{% if user.logo %}
+				<img width="150px" src="/media/{{ user.logo }}" />
+			{% endif %}
+			<p><strong>Компания:</strong> {{ user.company }}</p>
+			<p><strong>Адрес:</strong> {{ user.address }}</p>
+		</td>
+		{% endif %}
+	</tr>
+	</table>
+	
+	{% if right_to_change %}
+		<div id="block-controls">
+			<h1 align="center">Контроль управления</h1>
+			<p>&nbsp;</p>
+			<p><a href="/catalog/registration/{{user.id}}">Добавить фирму в каталог</a></p>
+			<p><a href="/catalog/firms/{{user.id}}">Все ваши фирмы</a></p>
+			<p><a href="/board/changepass/{{user.id}}">Изменить пароль</a></p>
+			{% if user.company %}<p><a href="/board/changelogo/{{user.id}}">Добавить логотип</a></p>{% endif %}
+			<p><a href="/board/datachange/{{user.id}}">Добавить/редактировать данные</a></p>
+			<p><a onclick="return false;" id="link_change_avatar" href="#">Изменить аватарку</a></p>
+			<p><a style="color:#c92725; font-size:15px;" href="/board/newad/{{user.id}}/">Разместить объявление</a></p>
+			<p><a style="color:#c92725; font-size:15px;" class="ad_link" href="/board/newjob/{{user.id}}/">Разместить вакансию/резюме</a></p>
+			<p><a href="/board/mail/{{user.id}}/">Письма от пользователей</a> <span>({{ count_messages }})</span></p>
+		</div>
+	{% endif %}
+
+<div id="change_avatar">
+	<p align="center"><a onclick="return false;" id="close_change_avatar"  href="#">Закрыть</a></p>
+	<div id="respond">
+		<form action="" method="post" enctype='multipart/form-data'>
+			<table cellpadding="10px">
+				{{change_avatar.as_table}}
+				<tr>
+					<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+					<td align="left"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+				</tr>
+			</table>  
+		</form>
+	</div>
+</div>
+	   
+{% endblock %}

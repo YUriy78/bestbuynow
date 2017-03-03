@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript"> 
+$(function(){
+	$('.confirmation').click(function(){
+		if(confirm('Вы уверены?')){
+			document.location.href = this.href;
+		}
+			
+    });
+
+ });	
+</script>
+{% endblock %}
+{% block content %}
+	{% if right_to_change %}
+	  <h1 align="center">Письма от пользователей</h1>
+	   <p>&nbsp;</p>
+	   {% if messages %}
+		   <table width="600px">
+		   {% for message in messages %}
+			<tr class="row-a">
+			  <td valign="top"><p><strong>Пользователь:</strong> {{message.name}}</p>
+				<p><strong>Email пользователя:</strong> {{message.email}}</p>
+				<p>{{message.text}}</p>
+				<p>{{message.date}}</p>
+			  </td>
+				<td>
+					<p class="del-ad"><a onclick="return false;" class="confirmation" href="/board/mail/{{user.id}}/?delmess={{message.id}}">Удалить</a></p>
+				</td>
+			</tr>
+			{% endfor %}
+			</table>
+		{% else %}
+			<p align="center">У вас пока нет писем!</p>
+		{% endif %}
+	{% else %}
+		<div align="center">
+			<h1>Страница не существует!</h1>
+			<p>&nbsp;</p>
+			<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+			<p>&nbsp;</p>
+		</div>
+	{% endif %}
+		
+{% endblock %}

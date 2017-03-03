@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block scripts %} 
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript">
+ $(function(){
+	$('#add-input').click(function ()
+    {
+       $('#files').append('<input name="img" type="file"><br>');
+    });
+	$("#br").click(function(){
+		var textarea = document.getElementById('id_description');
+		textarea.value += "<br/>";
+	});
+});
+</script>
+{% endblock %}
+{% block content %} 
+{% if right_to_change %}
+	<h1 align="center">Редактирование объявления</h1>
+		<div align="center">
+			<p>&nbsp;</p>
+			<form class="form-ad" action="" method="POST" enctype="multipart/form-data">
+				<table>
+					<tr><th><label for="id_name">Категория:</label></th>
+					<td><select name="category">
+					{% for main_category in main_categories %}
+						<option value="{{main_category.id}}" class="main-category" disabled="disabled">{{main_category.name}}</option>
+						{% for category in main_category.category_set.all %}
+							{% ifequal category.name ad_user.category.name %}
+								<option selected="{{ad_user.category.name}}" value="{{category.id}}">{{category.name}}</option>
+							{% else%} 
+								<option value="{{category.id}}">{{category.name}}</option>
+							{% endifequal %} 
+						{% endfor %}
+					{% endfor %}
+					</select></td>
+					</tr>
+					<tr><th><label for="id_name">Город:</label></th>
+					<td><select name="city">
+					{% for city in city_list %}
+						{% ifequal ad_user.city.name city.name %}
+							<option selected="{{city}}" value="{{city.id}}">{{city}}</option>
+						{% else%} 
+							<option value="{{city.id}}">{{city}}</option>
+						{% endifequal %} 
+					{% endfor %}
+					</select></td>
+					</tr>
+					<tr><th><label for="id_name">Заголовок:</label></th><td><input id="id_name" value="{{ ad_user.name }}" name="name" type="text" /></td></tr>
+					<tr><th><label for="id_description">Текст объявления (перевод строки: &lt;br/&gt;):</label></th><td><textarea cols="40" id="id_description" name="description" rows="10">{{ ad_user.description }}</textarea>
+					</td></tr>
+					{% if job_true %}
+						<tr><th><label for="id_salary">Зарплата:</label></th><td><input id="id_price" name="salary" value="{{ ad_user.salary | floatformat }}" step="any" type="text" /></td></tr>
+					{% else %}
+						<tr><th><label for="id_price">Цена:</label></th><td><input id="id_price" name="price" value="{{ ad_user.price | floatformat }}" step="any" autocomplete="on" type="number" /></td></tr>
+					{% endif %}
+					<tr><th><label for="id_img">Фотографии:</label></th><td id="files"><input name="img" type="file" /><br>
+					<p><small>Название картинки должно содержать только английские буквы и цифры!</small></p>
+					</td></tr>
+					<tr><th><a onclick="return false;" id="add-input" href="#">Загрузить еще фото</a></th><td></td></tr>
+					<tr>
+					<td><br/><input class="searchbutton" value="Отправить" type="submit" /></td>
+					<td><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+{% else %}
+	<div align="center">
+		<h1>Страница не существует!</h1>
+		<p>&nbsp;</p>
+		<p><img src="/static/images/404-error.png" alt="Страница не существует" /></p>
+		<p>&nbsp;</p>
+	</div>
+{% endif %}			
+
+{% endblock %}

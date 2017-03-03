@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %} Best buy now - сайт бесплатных объявлений{% endblock %}
+{% block content %} 
+	<h1 align="center">Поиск статей и новостей</h1>
+	<div>
+		<form action="/board/searchart/" class="searchform" method="GET">
+			<input style="width:400px" name="search" class="textbox" type="text" />
+			<input class="searchbutton" value="Найти" type="submit" />
+		</form>
+	</div>
+	<p>&nbsp;</p>
+	{% if articles %}
+		{% for article in articles  %}
+			<div>
+			<p align="center"><a class="title" href="/board/article/{{ article.id }}">{{ article.title }}</a></p>
+			<img width="100px" class="img_article" align="left" src="/media/{{ article.thumbnail }}" />{{ article.description }}
+			<br/><a href="/board/articles/article/{{ article.id }}">Читать далее >></a><br/>
+			</div>
+			<p>&nbsp;</p>
+		{% endfor %}
+	{% else%}
+		<h3 align="center">Данный раздел пока пуст!</h3>
+	{% endif %}
+	{% if articles %}
+		<p>&nbsp;</p>
+		<div class="pagination">
+				<span class="step-links">
+				{% if articles.has_previous %}
+					<a href="?page={{ articles.previous_page_number }}">Предыдущая</a>
+				{% endif %}
+
+				<span class="current">
+					Страница {{ articles.number }} из {{ articles.paginator.num_pages }}.
+				</span>
+
+				{% if articles.has_next %}
+					<a href="?page={{ articles.next_page_number }}">Следующая</a>
+				{% endif %}
+				</span>
+		</div>
+	{% endif %}
+{% endblock %}

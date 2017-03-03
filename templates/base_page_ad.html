@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block scripts %}
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+<script type="text/javascript">
+$(function(){
+	var first_img = $('.img-goods').first().css('border', '1px solid red');
+	$('#display-img img').attr("src", first_img.attr("src"));
+	
+	var index = 0;
+	var length = $('.img-goods').length;
+	$('#display-img img').click(function(){
+		$('.img-goods').css('border', '1px solid #DCDCDC');
+		index++;
+		if(index >= length) {
+			index = 0;
+		}
+		$('#display-img img').attr("src", $('.img-goods')[index].src);
+		$('.img-goods:eq('+ index +')').css('border', '1px solid red');
+				
+	});
+	
+	$('.img-goods').click(function(){
+		$('.img-goods').css('border', '1px solid #DCDCDC');
+		$('#display-img img').attr("src", this.src );
+		$(this).css('border', '1px solid red');
+	});
+	
+	$('a.link-toggle').click(function(){
+		$('#send-mail').css("display", "block");
+	});
+	$('#close_form').click(function(){
+		$('#send-mail').css("display", "none");
+	});
+		
+	$('#submit').click(function(){
+		var user_id = $('input[name=user_id]');
+		var name = $('input[name=name]');
+		var email = $('input[name=email]');
+		var text = $('textarea[name=text]');
+		if (name.val() != "" && email.val() != "" && text.val() != "" ){
+			$.ajax({
+				url: "",
+				type: "POST",
+				dataType: "html",
+				data: {
+					"user_id" : user_id.val(),
+					"name" : name.val(),
+					"email" : email.val(),
+					"text" : text.val()
+				},
+				success : function () {
+					name.val("");
+					email.val("");
+					text.val("");
+					alert("Ваше сообщение отправлено!")
+					$('#send-mail').css("display", "none");
+				}
+				
+			
+			});
+		}
+		else {
+			alert("Заполните все поля!")
+		}
+		
+	});
+		
+});
+
+</script>
+{% endblock %}
+{% block title %}{{ad.name}}{% endblock %}
+{% block content %} 
+<h1 align="center">{{ad.name}}</h1>
+	
+		<div align="center">
+			{% if img_list %}
+				{% if img_list|length > 1 %}
+				<table width="600px" cellspacing="1px" id="img-list">
+					<tr>
+						<td valign="top" align="left">
+							{% for img in img_list %}
+								<img class="img-goods" height="50px" src="/media/{{img.file}}" alt="{{ad.name}}" />
+							{% endfor %}
+						</td>
+					</tr>
+					<tr>
+						<td id="display-img" valign="top">
+							<img src="/media/{{img_first.file}}" alt="{{ad.name}}" />
+						</td>
+					</tr>
+				</table>
+				{% else %}
+				<div align="center">
+					<p>&nbsp;</p>
+					<img src="/media/{{img_first.file}}" alt="{{ad.name}}" />
+					<p>&nbsp;</p>
+				</div>
+				{% endif %}
+			{% else %}
+				<p>&nbsp;</p>
+			{% endif %}
+			<div align="center">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- best-buy-now-3 -->
+				<ins class="adsbygoogle"
+				style="display:inline-block;width:468px;height:60px"
+				data-ad-client="ca-pub-1698651832838772"
+				data-ad-slot="7804038848"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+			<div align="right" class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir,lj,friendfeed,moikrug,gplus"></div><br/>
+			<div id="page-ad">
+				{% autoescape off %}<p>{{ ad.description }}</p>{% endautoescape %}
+				{% if ad.user.company %}<p><strong>Компания: </strong><a href="/board/account/{{ad.user.id}}"> {{ ad.user.company | striptags  }}</a></p>{% endif %}
+				<p><strong>Контактное лицо: </strong><a href="/board/account/{{ad.user.id}}"> {{ad.user.name | striptags  }}</a></p>
+				<p><strong>Город: </strong> {{ad.city | striptags  }}</p>
+				{% if ad.price %}<p><strong>Цена: </strong> {{ad.price | striptags  }}</p>{% endif %}
+				{% if ad.salary %}<p><strong>Зарплата: </strong> {{ad.salary| striptags  }}</p>{% endif %}
+				<p><strong>Email: </strong><a href="mailto:{{ad.user.email | striptags }}">{{ad.user.email | striptags }}</a></p>
+				{% if ad.user.phone %}<p><strong>Телефон:</strong> {{ad.user.phone | striptags }}</p>{% endif %}
+				<p><strong>Дата публикации: </strong>{{ad.date}}</p>
+				<p><a onclick="return false;" class="link-toggle" href="#">Отправить сообщение пользователю</a></p>
+			</div>
+			</table>
+			<div id="send-mail">
+				<p align="center"><a onclick="return false;" id="close_form" href="#">Закрыть</a></p>
+				<form width="200px" action="" method="POST">
+					<input type="hidden" name="user_id" value="{{ad.user.id}}" />	
+					<table>
+					{{feedback_form.as_table}}
+					<tr>
+						<td><br/><input id="submit" onclick="return false" class="searchbutton" value="Отправить" type="submit" /></td>
+						<td align="left"><br/><input class="searchbutton" value="Очистить" type="reset" /></td>
+					</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+
+{% endblock %}
